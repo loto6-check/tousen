@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>口座情報照会ページ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: "Yu Gothic", "游ゴシック", sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 16px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.4em;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 25px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      font-size: 1.2em;
+      color: #003366;
+      border-bottom: 2px solid #003366;
+      padding-bottom: 6px;
+    }
+    input[type="number"] {
+      width: 70px;
+      padding: 10px;
+      margin: 6px;
+      font-size: 1em;
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bac;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #cc0000;
+      text-align: center;
+    }
+    .notice {
+      margin-top: 30px;
+      font-size: 0.8em;
+      color: gray;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>口座情報確認ページ</h1>
+  </header>
+
+  <div class="container">
+    <h2>入力内容の確認</h2>
+    <p>以下の数字を入力してください（6つ）</p>
+    <div>
+      <input type="number" id="num1" min="1" max="43">
+      <input type="number" id="num2" min="1" max="43">
+      <input type="number" id="num3" min="1" max="43">
+      <input type="number" id="num4" min="1" max="43">
+      <input type="number" id="num5" min="1" max="43">
+      <input type="number" id="num6" min="1" max="43">
+    </div>
+    <button onclick="checkNumbers()">確認する</button>
+    <div class="result" id="result"></div>
+    <div class="notice">
+      ※このページはジョーク用に作成された非公式ページです。
+    </div>
+  </div>
+
+  <script>
+    const winningNumbers = [3, 12, 18, 21, 34, 42];
+    const bonus = 15;
+
+    function checkNumbers() {
+      let userNums = [];
+      for (let i = 1; i <= 6; i++) {
+        const val = parseInt(document.getElementById("num" + i).value);
+        if (!isNaN(val)) userNums.push(val);
+      }
+
+      if (userNums.length !== 6) {
+        document.getElementById("result").textContent = "6つすべての数字を入力してください。";
+        return;
+      }
+
+      const match = userNums.filter(n => winningNumbers.includes(n)).length;
+      const hasBonus = userNums.includes(bonus);
+
+      let msg = "";
+      if (match === 6) msg = "🎉 おめでとうございます！1等です！（ネタ）";
+      else if (match === 5 && hasBonus) msg = "🎊 2等です！（ネタ）";
+      else if (match === 5) msg = "3等に該当します（ネタ）";
+      else if (match === 4) msg = "4等に該当します";
+      else if (match === 3) msg = "5等に該当します";
+      else msg = "残念！はずれです。";
+
+      document.getElementById("result").textContent = msg;
+    }
+  </script>
+</body>
+</html>
